@@ -1,5 +1,6 @@
 import Board from './Board';
 import Scoreboard from './Scoreboard';
+import hammerSrc from '../assets/hammer.png';
 
 export default class Game {
   constructor(container) {
@@ -45,7 +46,7 @@ export default class Game {
 
     // Hammer cursor
     this.hammerEl = document.createElement('img');
-    this.hammerEl.src = require('../assets/hammer.png');
+    this.hammerEl.src = hammerSrc;
     this.hammerEl.alt = 'hammer';
     this.hammerEl.classList.add('hammer');
     this.hammerEl.style.display = 'none';

@@ -10,9 +10,6 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "globals": {
-    "require": "readonly"
-  },
   "extends": ["eslint:recommended"],
   "rules": {
     "no-console": "off",

@@ -1,3 +1,5 @@
+import goblinSrc from '../assets/goblin.png';
+
 export default class Cell {
   constructor(onCellClick) {
     this.el = null;
@@ -11,7 +13,7 @@ export default class Cell {
     this.el = document.createElement('div');
     this.el.classList.add('cell');
     this.goblinEl = document.createElement('img');
-    this.goblinEl.src = require('../assets/goblin.png');
+    this.goblinEl.src = goblinSrc;
     this.goblinEl.classList.add('goblin', 'hidden');
     this.goblinEl.alt = 'goblin';
     this.goblinEl.draggable = false;
