@@ -1,5 +1,5 @@
 import Cell from './Cell';
-import { GRID_SIZE } from '../config';
+import { GRID_SIZE, GOBLIN_VISIBLE_MS } from '../config';
 
 export default class Board {
   constructor(onMiss, onHit) {
@@ -64,7 +64,7 @@ export default class Board {
       }
       // continue chain if not stopped
       if (!this._stopped) this.spawn();
-    }, 1000);
+    }, GOBLIN_VISIBLE_MS);
     this._timer = timeout;
   }
 
