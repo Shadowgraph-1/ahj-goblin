@@ -6,15 +6,19 @@ export default class Scoreboard {
     this.missesEl = null;
   }
 
-  init(scoreEl, missesEl) {
-    this.scoreEl = scoreEl;
-    this.missesEl = missesEl;
+  init(scoreElement, missesElement) {
+    this.scoreEl = scoreElement;
+    this.missesEl = missesElement;
     this.render();
   }
 
   render() {
-    if (this.scoreEl) this.scoreEl.textContent = this.score;
-    if (this.missesEl) this.missesEl.textContent = this.misses;
+    if (this.scoreEl) {
+      this.scoreEl.textContent = this.score;
+    }
+    if (this.missesEl) {
+      this.missesEl.textContent = this.misses;
+    }
   }
 
   incrementScore() {
@@ -30,6 +34,8 @@ export default class Scoreboard {
   }
 
   reset() {
-    this.score = 0; this.misses = 0; this.render();
+    this.score = 0;
+    this.misses = 0;
+    this.render();
   }
 }

@@ -1,4 +1,4 @@
-import goblinSrc from '../assets/goblin.png';
+import goblinImg from '../assets/goblin.png';
 
 export default class Cell {
   constructor(onCellClick) {
@@ -12,22 +12,24 @@ export default class Cell {
   render(container) {
     this.el = document.createElement('div');
     this.el.classList.add('cell');
+
     this.goblinEl = document.createElement('img');
-    this.goblinEl.src = goblinSrc;
+    this.goblinEl.src = goblinImg;
     this.goblinEl.classList.add('goblin', 'hidden');
     this.goblinEl.alt = 'goblin';
     this.goblinEl.draggable = false;
-    this.el.append(this.goblinEl);
 
+    this.el.append(this.goblinEl);
     container.append(this.el);
+
     this.index = Array.from(container.children).indexOf(this.el);
 
     this.el.addEventListener('click', () => {
       if (this.hasGoblin()) {
-        this._clickedDuring = true; // clicked and will be hidden by board logic
-        if (this.onCellClick) this.onCellClick(this.index, true);
-      } else {
-        // nothing
+        this._clickedDuring = true;
+        if (this.onCellClick) {
+          this.onCellClick(this.index, true);
+        }
       }
     });
   }

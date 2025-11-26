@@ -1,12 +1,17 @@
-import Board from './Board';
 import Scoreboard from './Scoreboard';
-import hammerSrc from '../assets/hammer.png';
+import Board from './Board';
+import hammerImg from '../assets/hammer.png';
+
+const MAX_MISSES = 5;
 
 export default class Game {
   constructor(container) {
     this.container = container;
     this.scoreboard = new Scoreboard();
-    this.board = new Board(this.onMiss.bind(this), this.onHit.bind(this));
+    this.board = new Board(
+      this.onMiss.bind(this),
+      this.onHit.bind(this)
+    );
     this.rootEl = null;
     this.hammerEl = null;
     this._onMouseMove = this._onMouseMove.bind(this);
@@ -15,18 +20,29 @@ export default class Game {
   init() {
     this._render();
     this.board.init(document.querySelector('.board'));
-    this.scoreboard.init(document.querySelector('.score-el'), document.querySelector('.misses-el'));
+    this.scoreboard.init(
+      document.querySelector('.score-el'),
+      document.querySelector('.misses-el')
+    );
     this.board.start();
 
     document.addEventListener('mousemove', this._onMouseMove);
-    document.addEventListener('mousedown', () => { if (this.hammerEl) this.hammerEl.classList.add('hit'); });
-    document.addEventListener('mouseup', () => { if (this.hammerEl) this.hammerEl.classList.remove('hit'); });
+    document.addEventListener('mousedown', () => {
+      if (this.hammerEl) {
+        this.hammerEl.classList.add('hit');
+      }
+    });
+    document.addEventListener('mouseup', () => {
+      if (this.hammerEl) {
+        this.hammerEl.classList.remove('hit');
+      }
+    });
   }
 
   _render() {
-    const el = document.createElement('div');
-    el.classList.add('app');
-    el.innerHTML = `
+    const appDiv = document.createElement('div');
+    appDiv.classList.add('app');
+    appDiv.innerHTML = `
       <div class="header">
         <div class="title">Гоблины!</div>
         <div class="controls">
@@ -36,30 +52,39 @@ export default class Game {
         </div>
       </div>
       <div class="board"></div>
-      <div class="footer">Попробуйте поймать гоблинов — пропустите 5 и игра закончится.</div>
+      <div class="footer">Попробуйте поймать гоблинов – пропустите ${MAX_MISSES} и игра закончится.</div>
     `;
 
-    this.container.append(el);
-    this.rootEl = el;
+    this.container.append(appDiv);
+    this.rootEl = appDiv;
 
-    this.rootEl.querySelector('.restart').addEventListener('click', () => this.restart());
+    this.rootEl.querySelector('.restart').addEventListener('click', () => {
+      this.restart();
+    });
 
-    // Hammer cursor
+    // Создаем элемент молотка
     this.hammerEl = document.createElement('img');
-    this.hammerEl.src = hammerSrc;
+    this.hammerEl.src = hammerImg;
     this.hammerEl.alt = 'hammer';
     this.hammerEl.classList.add('hammer');
     this.hammerEl.style.display = 'none';
     document.body.append(this.hammerEl);
-    // show/hide hammer only when cursor inside game area
-    this.rootEl.addEventListener('mouseenter', () => { this.hammerEl.style.display = 'block'; });
-    this.rootEl.addEventListener('mouseleave', () => { this.hammerEl.style.display = 'none'; });
+
+    // Показываем/скрываем молоток при входе/выходе из приложения
+    this.rootEl.addEventListener('mouseenter', () => {
+      this.hammerEl.style.display = 'block';
+    });
+
+    this.rootEl.addEventListener('mouseleave', () => {
+      this.hammerEl.style.display = 'none';
+    });
   }
 
-  _onMouseMove(e) {
-    if (!this.hammerEl) return;
-    this.hammerEl.style.left = `${e.clientX}px`;
-    this.hammerEl.style.top = `${e.clientY}px`;
+  _onMouseMove(event) {
+    if (this.hammerEl) {
+      this.hammerEl.style.left = `${event.clientX}px`;
+      this.hammerEl.style.top = `${event.clientY}px`;
+    }
   }
 
   onHit() {
@@ -67,14 +92,15 @@ export default class Game {
   }
 
   onMiss() {
-    const misses = this.scoreboard.incrementMisses();
-    if (misses >= 5) {
+    const missCount = this.scoreboard.incrementMisses();
+    if (missCount >= MAX_MISSES) {
       this.endGame();
     }
   }
 
   endGame() {
     this.board.stop();
+
     const overlay = document.createElement('div');
     overlay.classList.add('overlay-gameover');
     overlay.innerHTML = `
@@ -84,6 +110,7 @@ export default class Game {
         <button class="button restart">Restart</button>
       </div>
     `;
+
     document.body.append(overlay);
     overlay.querySelector('.restart').addEventListener('click', () => {
       overlay.remove();
