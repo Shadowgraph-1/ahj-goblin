@@ -8,7 +8,8 @@
     "build": "webpack --mode production",
     "dev": "webpack --mode development",
     "clean": "rimraf dist",
-    "predeploy": "yarn build"
+    "predeploy": "yarn build",
+    "lint": "eslint src --ext .js --fix"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +24,8 @@
     "mini-css-extract-plugin": "^2.8.0",
     "rimraf": "^5.0.0",
     "sass": "^1.74.0",
+    "eslint": "^8.45.0",
+    "@babel/eslint-parser": "^7.22.5",
     "sass-loader": "^13.2.2",
     "style-loader": "^3.3.3",
     "webpack": "^5.88.2",

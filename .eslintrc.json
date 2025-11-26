@@ -1,0 +1,22 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "requireConfigFile": false,
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "globals": {
+    "require": "readonly"
+  },
+  "extends": ["eslint:recommended"],
+  "rules": {
+    "no-console": "off",
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+    "quotes": ["error", "single", { "avoidEscape": true }]
+  }
+}

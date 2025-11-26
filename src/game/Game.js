@@ -38,7 +38,7 @@ export default class Game {
       <div class="footer">Попробуйте поймать гоблинов — пропустите 5 и игра закончится.</div>
     `;
 
-    this.container.appendChild(el);
+    this.container.append(el);
     this.rootEl = el;
 
     this.rootEl.querySelector('.restart').addEventListener('click', () => this.restart());
@@ -46,9 +46,10 @@ export default class Game {
     // Hammer cursor
     this.hammerEl = document.createElement('img');
     this.hammerEl.src = require('../assets/hammer.png');
+    this.hammerEl.alt = 'hammer';
     this.hammerEl.classList.add('hammer');
     this.hammerEl.style.display = 'none';
-    document.body.appendChild(this.hammerEl);
+    document.body.append(this.hammerEl);
     // show/hide hammer only when cursor inside game area
     this.rootEl.addEventListener('mouseenter', () => { this.hammerEl.style.display = 'block'; });
     this.rootEl.addEventListener('mouseleave', () => { this.hammerEl.style.display = 'none'; });
@@ -82,7 +83,7 @@ export default class Game {
         <button class="button restart">Restart</button>
       </div>
     `;
-    document.body.appendChild(overlay);
+    document.body.append(overlay);
     overlay.querySelector('.restart').addEventListener('click', () => {
       overlay.remove();
       this.restart();

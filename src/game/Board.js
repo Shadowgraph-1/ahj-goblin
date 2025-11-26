@@ -1,4 +1,5 @@
 import Cell from './Cell';
+import { GRID_SIZE } from '../config';
 
 export default class Board {
   constructor(onMiss, onHit) {
@@ -9,12 +10,15 @@ export default class Board {
     this._timer = null;
     this._activeCell = null;
     this._stopped = true;
+    this._lastIndex = null; // last active cell index to avoid immediate repeat
   }
 
   init(el) {
     this.el = el;
-    // create 3x3 grid
-    for (let i = 0; i < 9; i++) {
+    // set dynamic grid columns and create GRID_SIZE x GRID_SIZE grid
+    this.el.style.setProperty('--grid-columns', GRID_SIZE);
+    const total = GRID_SIZE * GRID_SIZE;
+    for (let i = 0; i < total; i++) {
       const cell = new Cell(this._cellClickHandler.bind(this));
       cell.render(this.el);
       this.cells.push(cell);
@@ -37,13 +41,18 @@ export default class Board {
 
   spawn() {
     // choose random cell that is not active
-    const freeCells = this.cells.filter(c => !c.hasGoblin());
-    if (freeCells.length === 0) return;
-    const idx = Math.floor(Math.random() * freeCells.length);
-    const cell = freeCells[idx];
-
-    // find index
-    const cellIndex = this.cells.indexOf(cell);
+    // choose random index in all cells, skip the last selected nor occupied ones
+    const len = this.cells.length;
+    if (len === 0) return;
+    let cellIndex;
+    let attempts = 0;
+    do {
+      cellIndex = Math.floor(Math.random() * len);
+      attempts += 1;
+      if (attempts > 20) break; // safety
+    } while (this.cells[cellIndex].hasGoblin() || cellIndex === this._lastIndex);
+    const cell = this.cells[cellIndex];
+    this._lastIndex = cellIndex;
 
     cell.showGoblin();
     // schedule hide after 1 second

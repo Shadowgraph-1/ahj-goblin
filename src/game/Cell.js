@@ -13,9 +13,11 @@ export default class Cell {
     this.goblinEl = document.createElement('img');
     this.goblinEl.src = require('../assets/goblin.png');
     this.goblinEl.classList.add('goblin', 'hidden');
-    this.el.appendChild(this.goblinEl);
+    this.goblinEl.alt = 'goblin';
+    this.goblinEl.draggable = false;
+    this.el.append(this.goblinEl);
 
-    container.appendChild(this.el);
+    container.append(this.el);
     this.index = Array.from(container.children).indexOf(this.el);
 
     this.el.addEventListener('click', () => {

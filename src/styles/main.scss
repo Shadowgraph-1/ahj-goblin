@@ -25,7 +25,7 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; 
 
 .score, .misses { font-weight:600; }
 
-.board { margin-top:16px; display:grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.board { margin-top:16px; display:grid; grid-template-columns: repeat(var(--grid-columns, 4), 1fr); gap: 10px; }
 .cell {
   --size: 200px;
   position: relative;
